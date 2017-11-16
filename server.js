@@ -21,8 +21,9 @@ var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
 
-
- response.end('version: '+ version + '<br>' + datetime);
+ response.writeHeader(200, {"Content-Type": "text/html"});  
+ response.write('<font color=red>version: '+ version + '</font><br>' + datetime);
+ response.end();
 }).listen(8081);
 
 // Console will print the message
