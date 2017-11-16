@@ -1,5 +1,7 @@
 var http = require("http");
 
+var version = '2.0.0'
+
 http.createServer(function (request, response) {
    console.log(request.toString())
    // Send the HTTP header
@@ -20,7 +22,7 @@ var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + currentdate.getSeconds();
 
 
- response.end(datetime);
+ response.end('version: '+ version + '<br>' + datetime);
 }).listen(8081);
 
 // Console will print the message
