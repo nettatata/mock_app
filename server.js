@@ -3,8 +3,7 @@ var url = require('url');
 
 var version = '2.0.0'
 
-var port = 80
-var backend_port = 80
+var port = 8080
 
 http.createServer(function (request, response) {
 
@@ -30,7 +29,7 @@ http.createServer(function (request, response) {
 
        http.get({
             hostname: params.backend,
-            port: backend_port,
+            port: params.port,
             path: '/',
             timeout: 1000  // timeout in 0.1 second
         }, (resp) => {
