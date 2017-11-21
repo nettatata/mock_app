@@ -3,6 +3,9 @@ var url = require('url');
 
 var version = '2.0.0'
 
+var port = 80
+var backend_port = 80
+
 http.createServer(function (request, response) {
 
    console.log(request.toString())
@@ -22,12 +25,12 @@ http.createServer(function (request, response) {
        console.log(params)
 
 
-       var backend_url =  'http://'+ params.backend +':9001/'
+       var backend_url =  'http://'+ params.backend + ':' + params.port +'/'
        console.log("request to "+backend_url)
 
        http.get({
             hostname: params.backend,
-            port: 9001,
+            port: backend_port,
             path: '/',
             timeout: 1000  // timeout in 0.1 second
         }, (resp) => {
@@ -65,7 +68,7 @@ http.createServer(function (request, response) {
 
    }
 
-}).listen(8080);
+}).listen(port);
 
 // Console will print the message
-console.log('Server running at http://127.0.0.1:8080/');
+console.log('Server running at http://127.0.0.1:'+port+'/');
