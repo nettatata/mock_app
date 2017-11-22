@@ -1,9 +1,41 @@
 var http = require("http");
 var url = require('url');
 
-var version = '2.0.1'
+var version = '3.0.1'
 
 var port = 8080
+
+
+function request_to_backend(response, params, url) {
+
+         var html=''
+         var backend_url =  'http://'+ params.backend + ':' + params.port +'/'
+         console.log("request to "+backend_url)
+
+         http.get({
+              hostname: params.backend,
+              port: params.port,
+              path: url,
+              timeout: 1000  // timeout in 0.1 second
+          }, (resp) => {
+
+               // A chunk of data has been recieved.
+               resp.on('data', (chunk) => {
+                 html += chunk;
+               });
+
+               // The whole response has been received. Print out the result.
+               resp.on('end', () => {
+                 response.write(html)
+                 response.end()
+               });
+         }).on("error", (err) => {
+           console.log("Error: " + err.message);
+           response.write(err.message)
+           response.end()
+         });
+
+}
 
 http.createServer(function (request, response) {
 
@@ -15,41 +47,15 @@ http.createServer(function (request, response) {
    response.writeHeader(200, {"Content-Type": "text/html"});
    var html = ''
 
-
+   var params = url.parse(request.url, true).query;
+   console.log(params)
 
    if (page == '/test') {
 
+     request_to_backend(response, params, "/")
 
-       var params = url.parse(request.url, true).query;
-       console.log(params)
-
-
-       var backend_url =  'http://'+ params.backend + ':' + params.port +'/'
-       console.log("request to "+backend_url)
-
-       http.get({
-            hostname: params.backend,
-            port: params.port,
-            path: '/',
-            timeout: 1000  // timeout in 0.1 second
-        }, (resp) => {
-
-             // A chunk of data has been recieved.
-             resp.on('data', (chunk) => {
-               html += chunk;
-             });
-
-             // The whole response has been received. Print out the result.
-             resp.on('end', () => {
-               response.write(html)
-               response.end()
-             });
-       }).on("error", (err) => {
-         console.log("Error: " + err.message);
-         response.write(err.message)
-         response.end()
-       });
-
+   } else if (page == '/test2') {
+      request_to_backend(response, params, "/test2")
 
    } else {
 
