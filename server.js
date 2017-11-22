@@ -1,7 +1,7 @@
 var http = require("http");
 var url = require('url');
 
-var version = '2.0.0'
+var version = '2.0.1'
 
 var port = 8080
 
