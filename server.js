@@ -57,6 +57,9 @@ http.createServer(function (request, response) {
    } else if (page == '/test2') {
       request_to_backend(response, params, "/test2")
 
+   } else if (page == '/test3') {
+       request_to_backend(response, params, "/test3")
+
    } else {
 
       var currentdate = new Date();
